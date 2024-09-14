@@ -3,29 +3,28 @@ package com.microservice.order.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.GenericGenerator;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "outbox")
+@Table(name = "outbox_event")
 public class OutboxEvent {
 
     @Id
-    @UuidGenerator
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     private String eventType;
-    private String payload;
-    private Instant createdAt;
+    private String status;
 
-    // Default constructor for Hibernate
-    public OutboxEvent() {}
+    // Default constructor required by Hibernate
+    public OutboxEvent() {
+    }
 
-    public OutboxEvent(String eventType, String payload) {
+    public OutboxEvent(UUID id, String eventType, String status) {
+        this.id = id;
         this.eventType = eventType;
-        this.payload = payload;
-        this.createdAt = Instant.now();
+        this.status = status;
     }
 
     public UUID getId() {
@@ -44,19 +43,11 @@ public class OutboxEvent {
         this.eventType = eventType;
     }
 
-    public String getPayload() {
-        return payload;
+    public String getStatus() {
+        return status;
     }
 
-    public void setPayload(String payload) {
-        this.payload = payload;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

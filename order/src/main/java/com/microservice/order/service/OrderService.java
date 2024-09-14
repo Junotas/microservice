@@ -37,7 +37,8 @@ public class OrderService {
 
     public OrderResponseDTO createOrder(OrderCreateDTO orderCreateDTO) {
         Order savedOrder = orderRepository.save(orderCreateDTO.toOrder());
-        OutboxEvent event = new OutboxEvent("OrderCreated", savedOrder.getId().toString());
+        // Updated constructor to use the correct three-argument constructor
+        OutboxEvent event = new OutboxEvent(UUID.randomUUID(), "OrderCreated", savedOrder.getId().toString());
         outboxRepository.save(event);
         return OrderResponseDTO.fromOrder(savedOrder);
     }

@@ -1,8 +1,9 @@
 package com.microservice.order.model;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -11,15 +12,18 @@ import java.util.UUID;
 public class Order {
 
     @Id
-    @UuidGenerator
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     private String productName;
     private int quantity;
     private String status;
 
-    public Order() {}
+    public Order() {
+    }
 
+    // Constructor without UUID (UUID will be generated automatically)
     public Order(String productName, int quantity, String status) {
+        this.id = UUID.randomUUID(); // Generate the UUID when this constructor is used
         this.productName = productName;
         this.quantity = quantity;
         this.status = status;
