@@ -45,7 +45,7 @@ class OrderControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"orderName\":\"Test Order\", \"quantity\":1, \"status\":\"Pending\"}"))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.productName").value("Test Order"));  // Updated to 'productName'
+                .andExpect(jsonPath("$.productName").value("Test Order"));
     }
 
     @Test
@@ -57,7 +57,7 @@ class OrderControllerTest {
         mockMvc.perform(get("/api/orders/{id}", orderId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productName").value("Existing Order"));  // Updated to 'productName'
+                .andExpect(jsonPath("$.productName").value("Existing Order"));
     }
 
 }
