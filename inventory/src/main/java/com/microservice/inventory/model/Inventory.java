@@ -1,9 +1,10 @@
 package com.microservice.inventory.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.UuidGenerator;
 import java.util.UUID;
 
 @Entity
@@ -11,16 +12,23 @@ import java.util.UUID;
 public class Inventory {
 
     @Id
-    @UuidGenerator
+    @GeneratedValue(strategy = GenerationType.AUTO) // Updated to AUTO to ensure UUID is generated
     private UUID id;
-
     private String productName;
     private int quantity;
     private int reservedQuantity;
 
-    public Inventory() {}
+    public Inventory() {
+    }
 
     public Inventory(String productName, int quantity, int reservedQuantity) {
+        this.productName = productName;
+        this.quantity = quantity;
+        this.reservedQuantity = reservedQuantity;
+    }
+
+    public Inventory(UUID id, String productName, int quantity, int reservedQuantity) {
+        this.id = id;
         this.productName = productName;
         this.quantity = quantity;
         this.reservedQuantity = reservedQuantity;

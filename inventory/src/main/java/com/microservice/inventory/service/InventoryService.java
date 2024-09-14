@@ -33,9 +33,17 @@ public class InventoryService {
     }
 
     public InventoryResponseDTO createInventoryItem(InventoryCreateDTO createDTO) {
-        Inventory savedInventory = inventoryRepository.save(createDTO.toInventory());
+        Inventory inventory = createDTO.toInventory();
+
+        // Ensure a UUID is generated if it's not already
+        if (inventory.getId() == null) {
+            inventory.setId(UUID.randomUUID());
+        }
+
+        Inventory savedInventory = inventoryRepository.save(inventory);
         return InventoryResponseDTO.fromInventory(savedInventory);
     }
+
 
     public InventoryResponseDTO updateInventoryItem(UUID id, InventoryCreateDTO createDTO) {
         return inventoryRepository.findById(id)
